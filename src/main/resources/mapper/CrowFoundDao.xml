@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otryin.cms.dao.CrowFoundDao">
+    <select id="getCrowFoundById" parameterType="int" resultMap="crowFoundDetail">
+        SELECT
+        cf.id AS cf_id,
+        cf.project_name AS cf_project_name,
+        cf.information AS cf_information,
+        cf.begin_time AS cf_begin_time,
+        cf.product_period AS  cf_product_period,
+        cf.crowfound_classification AS cf_crowfound_classification,
+        cf.design_image AS  cf_design_image,
+        /*设计师信息*/
+        u.id AS u_id,
+        u.nick_name AS u_nick_name,
+        /*电影信息*/
+        film.id AS film_id,
+        film.film_name AS film_name,
+        /*首焦图*/
+        cfBanner.crowfound_banner_image_url,
+        /*详情图*/
+        cfDetail.crowfound_detail_image_url,
+        /*套餐信息*/
+        package.id AS package_id,
+        package.price AS  package_price
+        package.packamount AS package_packamount,
+        package.participation AS package_participation,
+        package.packname AS package_packname,
+        package.image_url AS package_image_url,
+        package.packdescription AS package_packdescription
+        FROM tb_crowfound cf
+              LEFT JOIN tb_user_info u on cf.designer_id=u.id
+              LEFT JOIN tb_film film on cf.film_id=film.id
+              LEFT JOIN tb_crowfound_banner_image cfBanner on cf.id=cfBanner.crowfound_id
+              LEFT JOIN tb_crowfound_detail_image cfDetail on cf.id=cfDetail.crowfound_id
+              LEFT JOIN tb_crowfound_package package on cf.id=package.crowfound_id
+        WHERE cf.id=#{id}
+    </select>
+    <select id="getCrowFoundList" resultMap="crowFoundDTO">
+        SELECT
+        cf.id as cf_id,
+        cf.project_name as cf_project_name,
+        cf.information as cf_information,
+        cf.crowfound_state as cf_crowfound_state,
+        cf.upload_time as cf_upload_time,
+        cf.begin_time as cf_begin_time,
+        u.id as u_id,
+        u.nick_name as u_nick_name
+        FROM  tb_crowfound cf
+               LEFT JOIN tb_user_info u on cf.designer_id=u.id
+        ORDER BY begin_time desc
+        limit #{offset},#{limit}
+    </select>
+    <select id="getCrowFoundNum" resultType="int">
+        SELECT COUNT(cf.id) FROM tb_crowfound cf LEFT JOIN tb_user_info u on cf.designer_id=u.id
+    </select>
+    <resultMap id="crowFoundDTO" type="CrowFound">
+        <id property="id" column="cf_id" />
+        <result property="projectName" column="cf_project_name"/>
+        <result property="information" column="cf_information"/>
+        <result property="crowFoundState" column="cf_crowfound_state"/>
+        <result property="uploadTime" column="cf_upload_time"/>
+        <result property="beginTime" column="cf_begin_time"/>
+        <association property="designer" javaType="User">
+            <id property="id" column="u_id"/>
+            <result property="nickName" column="u_nick_name"/>
+        </association>
+    </resultMap>
+    <resultMap id="crowFoundDetail" type="CrowFound">
+        <id property="id" column="cf_id" />
+        <result property="projectName" column="cf_project_name"/>
+        <result property="information" column="cf_information"/>
+        <result property="beginTime" column="cf_begin_time"/>
+        <result property="productPeriod" column="cf_product_period"/>
+        <result property="crowfoundClassification" column="cf_crowfound_classification"/>
+        <result property="designImage" column="cf_design_image"/>
+        <association property="designer" javaType="User">
+            <id property="id" column="u_id"/>
+            <result property="nickName" column="u_nick_name"/>
+        </association>
+        <association property="film" javaType="Film">
+            <id property="id" column="film_id"/>
+            <result property="filmname" column="film_name"/>
+        </association>
+        <collection property="crowFoundBannerImageList" javaType="ArrayList" ofType="CrowFoundBannerImage">
+            <result property="crowfoundBannerImageUrl" column="crowfound_banner_image_url"/>
+        </collection>
+        <collection property="crowFoundDetailImageList" javaType="ArrayList" ofType="CrowFoundDetailImage">
+            <result property="crowFoundDetailImageUrl" column="crowfound_detail_image_url"/>
+        </collection>
+        <collection property="packageList" javaType="ArrayList" ofType="Package">
+            <id property="id" column="package_id"/>
+            <result property="packamount" column="package_packamount"/>
+            <result property="participation" column="package_participation"/>
+            <result property="packname" column="package_packname"/>
+            <result property="imageUrl" column="package_image_url"/>
+            <result property="packdescription" column="package_packdescription"/>
+            <result property="price" column="package_price"/>
+        </collection>
+    </resultMap>
+
+</mapper>

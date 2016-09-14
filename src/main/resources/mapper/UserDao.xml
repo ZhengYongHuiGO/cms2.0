@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otryin.cms.dao.UserDao">
+    <select id="getUserById" resultMap="userDetail">
+      SELECT
+      u.id as u_id,
+      u.nick_name as u_nick_name,
+      u.regist_time as u_regist_time,
+      uc.user_name as uc_user_name,
+      uc.phone AS uc_phone,
+      uc.email AS uc_email
+      FROM tb_user u
+      LEFT JOIN tb_user_account uc on u.user_id=uc.id
+      WHERE u.id=#{id}
+    </select>
+    <select id="getUserList" resultType="User">
+        SELECT
+        u.id as u_id,
+        u.nick_name as u_nick_name,
+        u.regist_time as u_regist_time,
+        u.constellation as u_constellation,
+        u.sex as u_sex
+        FROM tb_user u
+        ORDER by u.regist_time
+    </select>
+    <resultMap id="userDetail" type="User">
+        <id property="id" column="u_id"/>
+        <result property="nickName" column="u_nick_name"/>
+        <result property="registTime" column="u_regist_time"/>
+        <result property="userName" column="u_user_name"/>
+        <association property="userAccount" javaType="UserAccount">
+            <result property="phone" column="uc_phone"/>
+            <result property="email" column="uc_email"/>
+        </association>
+    </resultMap>
+</mapper>

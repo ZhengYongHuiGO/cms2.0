@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otryin.cms.dao.BannerDao">
+    <select id="getBannerList" resultMap="banner">
+        SELECT
+        b.id AS b_id,
+        b.publish_time AS b_publish_time,
+        b.image_url as b_image_url,
+        cf.id AS  cf_id,
+        cf.project_name AS project_name
+        FROM tb_banner b
+        LEFT JOIN tb_crowfound cf on b.crowfound_id=cf.id
+    </select>
+    <resultMap id="banner" type="Banner">
+        <id property="id" column="cf_id"/>
+        <result property="publishTime" column="b_publish_time"/>
+        <result property="bannerImageUrl" column="b_image_url"/>
+        <association property="crowFound" javaType="CrowFound">
+            <id property="id" column="cf_id"/>
+            <result property="projectName" column="project_name"/>
+        </association>
+    </resultMap>
+    <select id="getBannerById" resultType="Banner">
+        SELECT b.id,b.image_url AS bannerImageUrl FROM tb_banner b WHERE b.id=#{id}
+    </select>
+</mapper>

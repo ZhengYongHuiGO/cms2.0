@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otryin.cms.dao.CrowFoundBackupDao">
+    <select id="getCrowFoundBackupList" resultMap="crowFoundBackup">
+        SELECT
+        cfb.id AS cfb_id,
+        cfb.project_name AS cfb_project_name,
+        cfb.information AS cfb_information,
+        cfb.crowfound_state AS cfb_crowfound_state,
+        cfb.upload_time AS cfb_upload_time,
+        u.id AS u_id,
+        u.nick_name AS u_nickname
+        FROM tb_crowfound_backup cfb
+        LEFT JOIN tb_user_info u on cfb.designer_id=u.id
+        limit #{offset},#{limit}
+    </select>
+    <select id="getCrowFoundBackupById" resultMap="crowFoundBackupDetail">
+       SELECT
+        cfb.id AS cfb_id,
+        cfb.project_name AS cfb_project_name,
+        cfb.information AS cfb_information,
+        cfb.begin_time AS cfb_begin_time,
+        cfb.product_period AS  cfb_product_period,
+        cfb.crowfound_classification AS cfb_crowfound_classification,
+        cfb.design_image AS  cfb_design_image,
+        cfb.product_target_join_num AS cfb_product_target_join_num,
+        /*设计师信息*/
+        u.id AS u_id,
+        u.nick_name AS u_nick_name,
+        /*电影信息*/
+        film.id AS film_id,
+        film.film_name AS film_name,
+        /*首焦图*/
+        cfBanner.crowfound_banner_image_url,
+        /*详情图*/
+        cfDetail.crowfound_detail_image_url,
+        /*套餐信息*/
+        package.id AS package_id,
+        package.price AS  package_price,
+        package.packamount AS package_packamount,
+        package.packname AS package_packname,
+        package.image_url AS package_image_url,
+        package.packdescription AS package_packdescription
+        FROM tb_crowfound_backup cfb
+              LEFT JOIN tb_user_info u on cfb.designer_id=u.id
+              LEFT JOIN tb_film film on cfb.film_id=film.id
+              LEFT JOIN tb_crowfound_banner_image_backup cfBanner on cfb.id=cfBanner.crowfound_id
+              LEFT JOIN tb_crowfound_detail_image_backup cfDetail on cfb.id=cfDetail.crowfound_id
+              LEFT JOIN tb_crowfound_package_backup package on cfb.id=package.crowfound_id
+        WHERE cfb.id=#{id}
+    </select>
+    <resultMap id="crowFoundBackup" type="CrowFoundBackup">
+        <id property="id" column="cfb_id"/>
+        <result property="projectName" column="cfb_project_name"/>
+        <result property="information" column="cfb_information"/>
+        <result property="crowFoundState" column="cfb_crowfound_state"/>
+        <result property="uploadTime" column="cfb_upload_time"/>
+        <association property="designer" javaType="User" resultMap="designer"/>
+    </resultMap>
+    <resultMap id="crowFoundBackupDetail" type="CrowFoundBackup">
+        <id property="id" column="cfb_id" />
+        <result property="projectName" column="cfb_project_name"/>
+        <result property="information" column="cfb_information"/>
+        <result property="beginTime" column="cfb_begin_time"/>
+        <result property="productPeriod" column="cfb_product_period"/>
+        <result property="classification" column="cfb_crowfound_classification"/>
+        <result property="designImage" column="cfb_design_image"/>
+        <result property="productTargetJoinNum" column="cfb_product_target_join_num"/>
+        <association property="designer" javaType="User" resultMap="designer"/>
+        <association property="film" javaType="Film">
+            <id property="id" column="film_id"/>
+            <result property="filmname" column="film_name"/>
+        </association>
+        <collection property="crowFoundBannerImageBackupList" javaType="ArrayList" ofType="CrowFoundBannerImage">
+            <result property="crowfoundBannerImageUrl" column="crowfound_banner_image_url"/>
+        </collection>
+        <collection property="crowFoundDetailImageBackupList" javaType="ArrayList" ofType="CrowFoundDetailImage">
+            <result property="crowFoundDetailImageUrl" column="crowfound_detail_image_url"/>
+        </collection>
+        <collection property="packageBackUpList" javaType="ArrayList" ofType="Package">
+            <id property="id" column="package_id"/>
+            <result property="packamount" column="package_packamount"/>
+            <result property="packname" column="package_packname"/>
+            <result property="imageUrl" column="package_image_url"/>
+            <result property="packdescription" column="package_packdescription"/>
+            <result property="price" column="package_price"/>
+        </collection>
+    </resultMap>
+    <resultMap id="designer" type="User">
+        <id property="id" column="u_id"/>
+        <result property="nickName" column="u_nickname"/>
+    </resultMap>
+</mapper>
