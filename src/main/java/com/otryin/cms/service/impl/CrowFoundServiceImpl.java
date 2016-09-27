@@ -16,7 +16,7 @@ import java.util.List;
 public class CrowFoundServiceImpl implements CrowFoundService {
     @Autowired
     private CrowFoundDao crowFoundDao;
-    public Page<CrowFound> getCrowFoudnPage(int page, int pageSize) {
+    public Page<CrowFound> getCrowFoundPage(int page, int pageSize) {
         List<CrowFound> crowFounds=crowFoundDao.getCrowFoundList((page-1)*pageSize,pageSize);
         int totalNum=crowFoundDao.getCrowFoundNum();
         Page<CrowFound> cfPage=new Page<CrowFound>((page-1)*pageSize,pageSize,totalNum,crowFounds);

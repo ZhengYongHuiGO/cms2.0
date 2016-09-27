@@ -24,7 +24,7 @@ public class CrowFoundController {
         if(pageSize==null){
             pageSize=20;
         }
-        model.addAttribute("crowFounds",crowFoundService.getCrowFoudnPage(page,pageSize));
-        return "index";
+        model.addAttribute("crowFounds",crowFoundService.getCrowFoundPage(page,pageSize));
+        return "crowfound-all";
     }
 }

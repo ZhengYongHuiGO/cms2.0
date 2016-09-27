@@ -6,13 +6,14 @@ import java.util.Date;
 
 
 public class Banner implements Serializable{
-
     private int id;
     private Date publishTime;
     private String bannerImageUrl;
     private String bannerContentUrl;
     private int crowFoundId;
+    private int goodsId;
 
+    private Goods goods;
     private CrowFound crowFound;
 
     public int getId() {
@@ -61,6 +62,22 @@ public class Banner implements Serializable{
 
     public void setCrowFoundId(int crowFoundId) {
         this.crowFoundId = crowFoundId;
+    }
+
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
 
     @Override

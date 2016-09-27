@@ -13,6 +13,7 @@ public class Film implements Serializable {
     private String contents;
     private String posterUrl;
     private String logoUrl;
+    private int state;
 
 
     private String filmnameEnglish;
@@ -177,6 +178,14 @@ public class Film implements Serializable {
 
     public void setFormOfProduction(String formOfProduction) {
         this.formOfProduction = formOfProduction;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     @Override

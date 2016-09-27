@@ -1,0 +1,17 @@
+.detail-body{
+    width:640px;
+    background-color:gray;
+    margin-left: auto;
+    margin-right:auto;
+}
+.detail-pic{
+    margin-left:auto;
+    margin-right:auto;
+    border:solid 10px green;
+    width:200px;
+
+}
+img{
+    width:200px;
+    height:100px;
+}

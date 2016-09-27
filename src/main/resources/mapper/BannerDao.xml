@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.otryin.cms.dao.BannerDao">
-    <select id="getBannerList" resultMap="banner">
+    <select id="getCrowFoundBannerList" resultMap="banner">
         SELECT
         b.id AS b_id,
         b.publish_time AS b_publish_time,
@@ -12,6 +12,28 @@
         cf.project_name AS project_name
         FROM tb_banner b
         LEFT JOIN tb_crowfound cf on b.crowfound_id=cf.id
+        WHERE b.crowfound_id>=0
+    </select>
+    <select id="getGoodsBannerList" resultType="Banner">
+        SELECT
+        b.id AS b_id,
+        b.publish_time AS b_publish_time,
+        b.image_url as b_image_url,
+        g.id as "goods.id",
+        g.goods_name AS "goods.goodsName"
+        FROM tb_banner b
+        LEFT JOIN tb_goods g on b.goods_id=g.id
+        WHERE b.goods_id>=0
+    </select>
+    <select id="getFilmBannerList" resultType="FilmBanner">
+        SELECT
+        fb.id AS fb_id,
+        fb.publish_date AS fb_publish_time,
+        fb.image_url as fb_image_url,
+        f.id "film.id",
+        f.film_name "film.filmname"
+        FROM tb_film_banner fb
+        LEFT JOIN tb_film f on fb.film_id=f.id
     </select>
     <resultMap id="banner" type="Banner">
         <id property="id" column="cf_id"/>

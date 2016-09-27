@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otryin.cms.dao.FilmDao">
+    <select id="getFilmPage" resultType="Film">
+        SELECT f.id,f.film_name,f.contents,f.release_date FROM tb_film f WHERE f.state>=0 ORDER BY f.id DESC limit #{offset},#{limit}
+    </select>
+    <select id="getFilmNum" resultType="int">
+        SELECT COUNT(f.id) FROM tb_film f WHERE f.state>=0;
+    </select>
+    <insert id="saveFilm" parameterType="Film">
+        INSERT ignore INTO tb_film f  f.film_name,f.actors,f.director,f.type,f.contents,f.poster_url,f.logo_url,f.state,f.filmname_english,f.release_date,f.other_translation_name,f.language_dialogue,f.film_color,f.production_location,f.film_cast,f.original_soundtrack,f.production_company,f.issue_company,f.form_of_production
+        VALUES (#{film.filmname},#{film.actors},#{film.director},#{film.type},#{film.contents},#{film.posterUrl},#{film.logoUrl},#{film.state},#{film.filmnameEnglish},#{film.releaseDate},#{film.otherTranslationName},#{film.languageDialogue},#{film.filmColor},#{film.productionLocation},#{film.filmCast},#{film.originalSoundtrack},#{film.productionCompany},#{film.issueCompany},#{film.formOfProduction})
+    </insert>
+</mapper>

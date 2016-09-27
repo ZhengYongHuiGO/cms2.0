@@ -38,6 +38,8 @@ public class User implements Serializable{
     //是否是首次下单 默认是 1是首次下单
     private int firstOrder=1;
 
+    private UserAccount userAccount;
+    private Status status;
 
     public int getId() {
         return id;
@@ -277,6 +279,22 @@ public class User implements Serializable{
 
     public void setFirstOrder(int firstOrder) {
         this.firstOrder = firstOrder;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

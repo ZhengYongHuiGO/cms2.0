@@ -28,7 +28,7 @@
         <!--允许在嵌套语句中使用分页-->
         <setting name="safeRowBoundsEnabled" value="false"/>
         <!--是否开启自动驼峰命名规则的映射，即从经典数据库列名到经典java属性名的类似映射-->
-        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
         <!--mybatis利用本地缓存即时防止循环引用和加速重复嵌套查询 默认值为session会缓存一个会话中执行的所有查询，如果设置成statement，本地会话仅用在语句执行上，对相同sqlSession的不同调用将不会共享数据-->
         <setting name="localCacheScope" value="SESSION"/>
         <!--为空值指定jdbc类型-->

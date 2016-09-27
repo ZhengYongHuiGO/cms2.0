@@ -4,6 +4,8 @@ import com.otryin.cms.common.Page;
 import com.otryin.cms.entity.Banner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,8 +20,10 @@ public class BannerDaoTest {
     private BannerDao bannerDao;
     @Test
     public void testGetBannerList() throws Exception {
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.error("Hello world.");
 
-        System.out.println(new Page<Banner>(0,10,5,bannerDao.getBannerList()).toString());
+        System.out.println(new Page<Banner>(0,10,5,bannerDao.getCrowFoundBannerList()).toString());
     }
 
     @Test
